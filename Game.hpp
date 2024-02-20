@@ -2,15 +2,17 @@
 #define GAME_HPP
 
 #include <vector>
+#include <string>
 
 #include "Ship.hpp"
 #include "Bullet.hpp"
+#include "Asteroid.hpp"
 
 class Game {
 public:
 
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
+	const int SCREEN_WIDTH = 1024;
+	const int SCREEN_HEIGHT = 768;
 
 	Game();
 	~Game();
@@ -25,6 +27,8 @@ private:
 	Ship playerShip;
 	
 	std::vector<Bullet*> bullets;
+	std::vector<Asteroid*> asteroids;
+
 };
 
 #endif // !GAME_HPP

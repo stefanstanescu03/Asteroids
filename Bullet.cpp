@@ -11,7 +11,6 @@ Bullet::Bullet(const char* path, SDL_Renderer* renderer,
 	width = 0;
 	height = 0;
 
-	bulletTexture = NULL;
 	SDL_Surface* loadedSurface = IMG_Load(path);
 
 	if (loadedSurface == NULL) {

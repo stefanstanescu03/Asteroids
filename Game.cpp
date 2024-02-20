@@ -1,5 +1,13 @@
 #include "Game.hpp"
 
+std::string getRandom() {
+	return std::to_string(rand() % 4 + 1);
+}
+
+double getRandomAngle() {
+	return rand() % 360;
+}
+
 Game::Game() {
 
 	window = NULL;
@@ -63,6 +71,11 @@ void Game::run() {
 	Uint64 last = 0;
 	double deltaTime = 0.f;
 
+	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
+	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
+	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
+	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
+
 	while (!shouldQuit) {
 
 		last = now;
@@ -122,9 +135,40 @@ void Game::run() {
 				bullets[i]->getY() > SCREEN_HEIGHT ||
 				bullets[i]->getY() < 0) {
 
-				bullets.erase(bullets.begin() + i);
+				bullets.erase(bullets.begin() + i); 
 				i--;
 			}
+		}
+
+		for (unsigned int i = 0; i < asteroids.size(); i++) {
+			asteroids[i]->render(renderer);
+			asteroids[i]->move(deltaTime, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+			bool wasDeleted = false;
+
+			for (unsigned int j = 0; j < bullets.size() && !wasDeleted; j++) {
+				if (asteroids[i]->hasCollided(bullets[j])) {
+
+					if (asteroids[i]->getSize() <= 2) {
+						for (unsigned int k = 0; k < 3; k++) {
+							asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(),
+								renderer, asteroids[i]->getX(), asteroids[i]->getY(), getRandomAngle(), asteroids[i]->getSize() * 2));
+						}
+					}
+					asteroids.erase(asteroids.begin() + i);
+					i--;
+					bullets.erase(bullets.begin() + j);
+					j--;
+					wasDeleted = true;
+				}
+			}
+		}
+
+		if (asteroids.size() == 0) {
+			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
+			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
+			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
+			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
 		}
 
 		SDL_RenderPresent(renderer);
