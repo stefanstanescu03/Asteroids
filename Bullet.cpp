@@ -38,6 +38,7 @@ Bullet::~Bullet() {
 
 	SDL_DestroyTexture(bulletTexture);
 	bulletTexture = NULL;
+	delete bulletTexture;
 
 	IMG_Quit();
 }

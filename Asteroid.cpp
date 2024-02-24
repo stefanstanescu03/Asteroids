@@ -40,6 +40,7 @@ Asteroid::~Asteroid() {
 
 	SDL_DestroyTexture(asteroidTexture);
 	asteroidTexture = NULL;
+	delete asteroidTexture;
 
 	IMG_Quit();
 }

@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\SDL2_image-2.8.2\include;D:\SDL2-2.30.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\SDL2_image-2.8.2\lib\x64;D:\SDL2-2.30.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\SDL2_ttf-2.22.0\include;D:\SDL2_image-2.8.2\include;D:\SDL2-2.30.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\SDL2_ttf-2.22.0\lib\x64;D:\SDL2_image-2.8.2\lib\x64;D:\SDL2-2.30.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\SDL2_image-2.8.2\include;D:\SDL2-2.30.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\SDL2_image-2.8.2\lib\x64;D:\SDL2-2.30.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\SDL2_ttf-2.22.0\include;D:\SDL2_image-2.8.2\include;D:\SDL2-2.30.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\SDL2_ttf-2.22.0\lib\x64;D:\SDL2_image-2.8.2\lib\x64;D:\SDL2-2.30.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -88,7 +88,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,7 +117,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,12 +141,14 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asteroid.hpp" />
     <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Score.hpp" />
     <ClInclude Include="Ship.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,6 +8,10 @@ double getRandomAngle() {
 	return rand() % 360;
 }
 
+double getRandomPosition(int max) {
+	return rand() % max + 1;
+}
+
 Game::Game() {
 
 	window = NULL;
@@ -48,6 +52,7 @@ Game::Game() {
 				else {
 					playerShip.init("ship.png", renderer, 
 						SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+					score.init("font.ttf", renderer, 16, 16);
 				}
 			}
 		}
@@ -57,7 +62,11 @@ Game::Game() {
 Game::~Game() {
 
 	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
 	window = NULL;
+	renderer = NULL;
+	delete window;
+	delete renderer;
 
 	SDL_Quit();
 }
@@ -71,10 +80,11 @@ void Game::run() {
 	Uint64 last = 0;
 	double deltaTime = 0.f;
 
-	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
-	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
-	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
-	asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
+	for (int i = 0; i < 4; i++) {
+		asteroids.push_back(
+			new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer,
+				getRandomPosition(SCREEN_WIDTH), getRandomPosition(SCREEN_HEIGHT), getRandomAngle(), 1));
+	}
 
 	while (!shouldQuit) {
 
@@ -125,6 +135,7 @@ void Game::run() {
 
 		SDL_RenderClear(renderer);
 		playerShip.render(renderer);
+		score.showScore(renderer);
 
 		for (unsigned int i = 0; i < bullets.size(); i++) {
 			bullets[i]->render(renderer);
@@ -135,6 +146,7 @@ void Game::run() {
 				bullets[i]->getY() > SCREEN_HEIGHT ||
 				bullets[i]->getY() < 0) {
 
+				delete bullets[i];
 				bullets.erase(bullets.begin() + i); 
 				i--;
 			}
@@ -145,12 +157,20 @@ void Game::run() {
 			asteroids[i]->move(deltaTime, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 			if (playerShip.hasCollided(asteroids[i])) {
+
+				for (unsigned int j = 0; j < asteroids.size(); j++) {
+					delete asteroids[j];
+				}
+
 				asteroids.clear();
+
 				playerShip.reset(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
-				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
-				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
-				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
+				for (int j = 0; j < 4; j++) {
+					asteroids.push_back(
+						new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer,
+							getRandomPosition(SCREEN_WIDTH), getRandomPosition(SCREEN_HEIGHT), getRandomAngle(), 1));
+				}
+				score.resetScore();
 				break;
 			}
 
@@ -159,14 +179,18 @@ void Game::run() {
 			for (unsigned int j = 0; j < bullets.size() && !wasDeleted; j++) {
 				if (asteroids[i]->hasCollided(bullets[j])) {
 
+					score.incrementScore(12 * asteroids[i]->getSize() + 5);
+
 					if (asteroids[i]->getSize() <= 2) {
 						for (unsigned int k = 0; k < 3; k++) {
 							asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(),
 								renderer, asteroids[i]->getX(), asteroids[i]->getY(), getRandomAngle(), asteroids[i]->getSize() * 2));
 						}
 					}
+					delete asteroids[i];
 					asteroids.erase(asteroids.begin() + i);
 					i--;
+					delete bullets[j];
 					bullets.erase(bullets.begin() + j);
 					j--;
 					wasDeleted = true;
@@ -175,10 +199,11 @@ void Game::run() {
 		}
 
 		if (asteroids.size() == 0) {
-			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
-			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
-			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
-			asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
+			for (int i = 0; i < 4; i++) {
+				asteroids.push_back(
+					new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer,
+						getRandomPosition(SCREEN_WIDTH), getRandomPosition(SCREEN_HEIGHT), getRandomAngle(), 1));
+			}
 		}
 
 		SDL_RenderPresent(renderer);

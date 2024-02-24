@@ -7,6 +7,7 @@
 #include "Ship.hpp"
 #include "Bullet.hpp"
 #include "Asteroid.hpp"
+#include "Score.hpp"
 
 class Game {
 public:
@@ -25,6 +26,7 @@ private:
 	SDL_Renderer* renderer;
 
 	Ship playerShip;
+	Score score;
 	
 	std::vector<Bullet*> bullets;
 	std::vector<Asteroid*> asteroids;

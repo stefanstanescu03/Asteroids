@@ -14,6 +14,7 @@ Ship::~Ship() {
 
 	SDL_DestroyTexture(shipTexture);
 	shipTexture = NULL;
+	delete shipTexture;
 
 	IMG_Quit();
 }
