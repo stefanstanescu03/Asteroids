@@ -7,6 +7,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "Asteroid.hpp"
+
 class Ship {
 	
 public:
@@ -18,10 +20,13 @@ public:
 	void setRotationSpeed(int);
 	void move(double, int, int);
 	void setAcceleration(int);
+	bool hasCollided(Asteroid*);
 
 	double getX();
 	double getY();
 	double getAngle();
+
+	void reset(double, double);
 
 private:
 	SDL_Texture* shipTexture;

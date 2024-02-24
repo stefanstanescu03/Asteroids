@@ -144,6 +144,16 @@ void Game::run() {
 			asteroids[i]->render(renderer);
 			asteroids[i]->move(deltaTime, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+			if (playerShip.hasCollided(asteroids[i])) {
+				asteroids.clear();
+				playerShip.reset(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 500, 500, 30, 1));
+				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 200, 321, 90, 1));
+				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 450, 200, 270, 1));
+				asteroids.push_back(new Asteroid(("asteroid" + getRandom() + ".png").c_str(), renderer, 100, 101, 180, 1));
+				break;
+			}
+
 			bool wasDeleted = false;
 
 			for (unsigned int j = 0; j < bullets.size() && !wasDeleted; j++) {

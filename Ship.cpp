@@ -55,6 +55,14 @@ void Ship::render(SDL_Renderer* renderer) {
 	SDL_RenderCopyEx(renderer, shipTexture,
 		NULL, &renderQuad, angle, 
 		&center, SDL_FLIP_NONE);
+
+	//SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+	//SDL_Rect outlineRect = { x, y, width, height };
+	//SDL_RenderDrawRect(renderer, &outlineRect);
+	//SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0x00, 0xFF);
+	//SDL_RenderDrawPoint(renderer, x + width / 2, y + height / 2);
+	//SDL_RenderDrawPoint(renderer, x, y);
+	//SDL_SetRenderDrawColor(renderer, 0x20, 0x20, 0x20, 0xFF);
 }
 
 void Ship::rotate(double deltaTime) {
@@ -97,6 +105,16 @@ void Ship::setAcceleration(int direction) {
 	}
 }
 
+bool Ship::hasCollided(Asteroid* asteroid) {
+
+	if ((asteroid->getX() - x + asteroid->getWidth() / 2 - width / 2) * (asteroid->getX() - x + asteroid->getWidth() / 2 - width / 2) +
+		(asteroid->getY() - y + asteroid->getHeight() / 2 - height / 2) * (asteroid->getY() - y + asteroid->getHeight() / 2 - height / 2) 
+		< (width + asteroid->getWidth()) * (width + asteroid->getWidth()) / 4) {
+		return true;
+	}
+	return false;
+}
+
 double Ship::getX() {
 	return x;
 }
@@ -107,4 +125,14 @@ double Ship::getY() {
 
 double Ship::getAngle() {
 	return angle;
+}
+
+void Ship::reset(double x, double y) {
+	this->x = x;
+	this->y = y;
+	angle = 0.;
+	speedX = 0.;
+	speedY = 0.;
+	accelerationX = 0.;
+	accelerationY = 0.;
 }

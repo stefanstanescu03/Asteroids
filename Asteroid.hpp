@@ -21,6 +21,9 @@ public:
 	double getX();
 	double getY();
 
+	int getHeight();
+	int getWidth();
+
 	double getSize();
 
 private:

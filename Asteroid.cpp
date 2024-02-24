@@ -58,6 +58,7 @@ void Asteroid::render(SDL_Renderer* renderer) {
 	//SDL_RenderDrawRect(renderer, &outlineRect);
 	//SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0x00, 0xFF);
 	//SDL_RenderDrawPoint(renderer, x + width / 2, y + height / 2);
+	//SDL_RenderDrawPoint(renderer, x, y);
 	//SDL_SetRenderDrawColor(renderer, 0x20, 0x20, 0x20, 0xFF);
 }
 
@@ -92,4 +93,12 @@ double Asteroid::getY() {
 
 double Asteroid::getSize() {
 	return size;
+}
+
+int Asteroid::getHeight() {
+	return height;
+}
+
+int Asteroid::getWidth() {
+	return width;
 }
