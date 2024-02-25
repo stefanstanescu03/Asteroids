@@ -85,8 +85,19 @@ void Ship::move(double deltaTime, int width, int height) {
 	speedX += accelerationX * deltaTime;
 	speedY -= accelerationY * deltaTime;
 
-	if (abs(speedX) > 1e-2) speedX *= DRAG;
-	if (abs(speedY) > 1e-2) speedY *= DRAG;
+	if (abs(speedX) > 1e-2) {
+		if (speedX > 0)
+			speedX -= DRAG * deltaTime;
+		else 
+			speedX += DRAG * deltaTime;
+	}
+
+	if (abs(speedY) > 1e-2) {
+		if (speedY > 0)
+			speedY -= DRAG * deltaTime;
+		else 
+			speedY += DRAG * deltaTime;
+	}
 
 	if (x > width) x = 0;
 	if (x < 0) x = width;

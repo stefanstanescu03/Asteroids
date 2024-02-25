@@ -47,7 +47,7 @@ private:
 
 	const double ROTATION_SPEED = 0.3;
 	const double MOVE_ACCELERATION = 0.0005;
-	const double DRAG = 1 - 1e-4;
+	const double DRAG = 1e-4;
 
 };
 

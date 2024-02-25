@@ -34,7 +34,7 @@ Game::Game() {
 		else {
 
 			renderer = SDL_CreateRenderer(
-				window, -1, SDL_RENDERER_ACCELERATED);
+				window, -1, SDL_RENDERER_PRESENTVSYNC);
 
 			if (renderer == NULL) {
 				std::cout << "Renderer could not be created: " <<
